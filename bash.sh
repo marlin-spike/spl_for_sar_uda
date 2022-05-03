@@ -1,4 +1,4 @@
-cat <<EOF> script.sh
+
 #!/bin/sh
    
 #Task 1. Create a project jumphost instance
@@ -101,4 +101,3 @@ gcloud compute forwarding-rules create http-content-rule \
 		
 gcloud compute forwarding-rules list
 		  
-EOF
