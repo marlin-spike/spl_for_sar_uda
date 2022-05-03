@@ -1,12 +1,14 @@
+
 #!/bin/sh
 
-RED="31"
-BOLDGREEN="\e[1;${RED}m" 
-ENDCOLOR="\e[0m"
+
   
 #Task 1. Create a project jumphost instance
 
-echo "${BOLDGREEN}Name the instance:---${ENDCOLOR} "
+sudo apt install figlet
+figlet SG
+
+echo "Name the instance:--- "
 read nameI
 
 gcloud compute instances create $nameI \
@@ -32,7 +34,7 @@ gcloud container clusters get-credentials nucleus-backend \
 kubectl create deployment hello-server \
 --image=gcr.io/google-samples/hello-app:2.0
 
-echo "${BOLDGREEN}hello server port:--${ENDCOLOR}"
+echo "hello server port:--"
 read hport
 
 kubectl expose deployment hello-server \
@@ -42,14 +44,6 @@ kubectl expose deployment hello-server \
 
 #Task 3. Set up an HTTP load balancer
 
-
-	cat << EOF > startup.sh
-	#! /bin/bash
-	apt-get update
-	apt-get install -y nginx
-	service nginx start
-	sed -i -- 's/nginx/Google Cloud Platform - '"\$HOSTNAME"'/' /var/www/html/index.nginx-debian.html
-	
 
 
 gcloud compute instance-templates create web-server-template \
@@ -64,10 +58,10 @@ gcloud compute instance-groups managed create web-server-group \
 		  --template web-server-template \
 		  --region us-east1
 
-echo "${BOLDGREEN}firewall rule name${ENDCOLOR}"
+echo "firewall rule name"
 read FWname
 
-echo "${BOLDGREEN}port no${ENDCOLOR}"
+echo "port no"
 read port
 
 gcloud compute firewall-rules create $Fwname \
@@ -103,3 +97,4 @@ gcloud compute forwarding-rules create http-content-rule \
 		--ports 80
 		
 gcloud compute forwarding-rules list
+		  
