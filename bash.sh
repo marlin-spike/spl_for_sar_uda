@@ -1,9 +1,12 @@
-
 #!/bin/sh
-   
+
+RED="31"
+BOLDGREEN="\e[1;${RED}m" 
+ENDCOLOR="\e[0m"
+  
 #Task 1. Create a project jumphost instance
 
-echo "Name the instance:---"
+echo "${BOLDGREEN}Name the instance:---${ENDCOLOR} "
 read nameI
 
 gcloud compute instances create $nameI \
@@ -29,7 +32,7 @@ gcloud container clusters get-credentials nucleus-backend \
 kubectl create deployment hello-server \
 --image=gcr.io/google-samples/hello-app:2.0
 
-echo "hello server port:--"
+echo "${BOLDGREEN}hello server port:--${ENDCOLOR}"
 read hport
 
 kubectl expose deployment hello-server \
@@ -61,10 +64,10 @@ gcloud compute instance-groups managed create web-server-group \
 		  --template web-server-template \
 		  --region us-east1
 
-echo "firewall rule name"
+echo "${BOLDGREEN}firewall rule name${ENDCOLOR}"
 read FWname
 
-echo "port no"
+echo "${BOLDGREEN}port no${ENDCOLOR}"
 read port
 
 gcloud compute firewall-rules create $Fwname \
@@ -100,4 +103,3 @@ gcloud compute forwarding-rules create http-content-rule \
 		--ports 80
 		
 gcloud compute forwarding-rules list
-		  
